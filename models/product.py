@@ -2,13 +2,10 @@
 from sqlalchemy import Column, String, Integer, Float, Boolean, ForeignKey
 # импортируем модуль для связки таблиц
 from sqlalchemy.orm import relationship, backref
-# класс-конструктор для работы с декларативным стилем работы с SQLAlchemy
-from sqlalchemy.ext.declarative import declarative_base
+
 # импортируем модель Категория для связки моделей
-from .category import Category
-
-
-Base = declarative_base()
+from models.category import Category
+from data_base.dbcore import Base
 
 
 class Products(Base):

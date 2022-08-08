@@ -1,15 +1,14 @@
 # компоненты библиотеки для описания структуры таблицы
 from sqlalchemy import Column, String, Integer, Boolean
-# класс-конструктор для работы с декларативным стилем работы
-from sqlalchemy.ext.declarative import declarative_base
 
-# инициализация декларативного стиля
-Base = declarative_base()
+from data_base.dbcore import Base
 
 
 class Category(Base):
-    """ Класс для описания таблицы Категория товара """
-
+    """
+    Класс-модель для описания таблицы "Категория товара",
+    основан на декларативном стиле SQLAlchemy
+    """
     # название таблицы
     __tablename__ = 'category'
 
@@ -19,6 +18,4 @@ class Category(Base):
     is_active = Column(Boolean)
 
     def __str__(self):
-        """ Метод возвращает строковое представление объекта класса """
-
         return self.name

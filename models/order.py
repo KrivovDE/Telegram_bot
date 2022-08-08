@@ -2,13 +2,10 @@
 from sqlalchemy import Column, DateTime, Integer, ForeignKey
 # импортируем модуль для связки таблиц
 from sqlalchemy.orm import relationship, backref
-# класс-конструктор для работы с декларативным стилем работы с SQLAlchemy
-from sqlalchemy.ext.declarative import declarative_base
+
 # импортируем модель продуктов для связки моделей
-from .product import Products
-
-
-Base = declarative_base()
+from models.product import Products
+from data_base.dbcore import Base
 
 
 class Order(Base):
