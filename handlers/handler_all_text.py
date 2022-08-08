@@ -47,6 +47,9 @@ class HandlerAllText(Handler):
         def handle(message):
             # ********** меню ********** #
 
+            if message.text == config.KEYBOARD['CHOOSE_GOODS']:
+                self.pressed_btn_category(message)
+
             if message.text == config.KEYBOARD['INFO']:
                 self.pressed_btn_info(message)
 
@@ -55,3 +58,13 @@ class HandlerAllText(Handler):
 
             if message.text == config.KEYBOARD['<<']:
                 self.pressed_btn_back(message)
+
+            # ********** меню (категории товара, ПФ, Бакалея, Мороженое)******
+            if message.text == config.KEYBOARD['SEMIPRODUCT']:
+                self.pressed_btn_product(message, 'SEMIPRODUCT')
+
+            if message.text == config.KEYBOARD['GROCERY']:
+                self.pressed_btn_product(message, 'GROCERY')
+
+            if message.text == config.KEYBOARD['ICE_CREAM']:
+                self.pressed_btn_product(message, 'ICE_CREAM')
