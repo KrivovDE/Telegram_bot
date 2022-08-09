@@ -1,0 +1,11 @@
+certifi==2022.6.15
+charset-normalizer==2.1.0
+emoji==2.0.0
+greenlet==1.1.2
+idna==3.3
+markup==0.2
+pyTelegramBotAPI==4.6.1
+requests==2.28.1
+SQLAlchemy==1.4.39
+telebot==0.0.4
+urllib3==1.26.11
