@@ -126,7 +126,7 @@ class DBManager(metaclass=Singleton):
 
     def update_order_value(self, product_id, name, value):
         """
-        Обновляет данные указанной позиции заказа
+        Обновляет количество товара на складе
         в соответствии с номером товара - rownum
         """
         self._session.query(Order).filter_by(
@@ -180,8 +180,28 @@ class DBManager(metaclass=Singleton):
         return result.quantity
 
     def delete_order(self, product_id):
-        # update_product_value
+        """
+        Удаляет товар из заказа
+        """
         self._session.query(Order).filter_by(product_id=product_id).delete()
         self._session.commit()
         self.close()
 
+    def delete_all_order(self):
+        """
+        Удаляет данные всего заказа
+        """
+        all_id_orders = self.select_all_order_id()
+
+        for itm in all_id_orders:
+            self._session.query(Order).filter_by(id=itm).delete()
+            self._session.commit()
+        self.close()
+
+    def select_all_order_id(self):
+        """
+        Возвращает все id заказа
+        """
+        result = self._session.query(Order.id).all()
+        self.close()
+        return utility._convert(result)

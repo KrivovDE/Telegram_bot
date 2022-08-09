@@ -1,13 +1,13 @@
 # импортируем ответ пользователю
 from settings.message import MESSAGES
-from settings import config
+from settings import config, utility
 # импортируем класс родитель
 from handlers.handler import Handler
 
 
 class HandlerAllText(Handler):
     """
-    Класс обрабатывает события нажатия на кнопки
+    Класс обрабатывает входящие текстовые сообщения от нажатия на кнопоки
     """
 
     def __init__(self, bot):
@@ -195,7 +195,7 @@ class HandlerAllText(Handler):
         quantity = self.BD.select_order_quantity(count[self.step])
 
         # отправляем ответ пользователю
-        self.send_message_order(count[self.step],quantity,message)
+        self.send_message_order(count[self.step], quantity, message)
 
     def pressed_btn_next_step(self, message):
         """
@@ -204,7 +204,7 @@ class HandlerAllText(Handler):
         """
         # увеличиваем шаг пока шаг не будет равет количеству строк
         # полей заказа с расчетом цены деления начиная с "0"
-        if self.step < self.BD.count_rows_order()-1:
+        if self.step < self.BD.count_rows_order() - 1:
             self.step += 1
         # получаем список всех товаров в заказе
         count = self.BD.select_all_product_id()
@@ -213,6 +213,22 @@ class HandlerAllText(Handler):
 
         # отправляем ответ пользователю
         self.send_message_order(count[self.step], quantity, message)
+
+    def pressed_btn_apllay(self, message):
+        """
+        обрабатывает входящие текстовые сообщения
+        от нажатия на кнопку 'Оформить заказ'.
+        """
+        # отправляем ответ пользователю
+        self.bot.send_message(message.chat.id,
+                              MESSAGES['applay'].format(
+                                  utility.get_total_coas(self.BD),
+
+                                  utility.get_total_quantity(self.BD)),
+                              parse_mode="HTML",
+                              reply_markup=self.keybords.category_menu())
+        # отчищаем данные с заказа
+        self.BD.delete_all_order()
 
     def handle(self):
         # обработчик(декоратор) сообщений,
@@ -270,3 +286,9 @@ class HandlerAllText(Handler):
 
             if message.text == config.KEYBOARD['NEXT_STEP']:
                 self.pressed_btn_next_step(message)
+
+            if message.text == config.KEYBOARD['APPLAY']:
+                self.pressed_btn_apllay(message)
+            # иные нажатия и ввод данных пользователем
+            else:
+                self.bot.send_message(message.chat.id, message.text)
