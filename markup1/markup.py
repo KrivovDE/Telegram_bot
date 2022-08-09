@@ -23,6 +23,14 @@ class Keyboards:
         Создает и возвращает кнопку по входным параметрам
         """
 
+        if name == "AMOUNT_ORDERS":
+            config.KEYBOARD["AMOUNT_ORDERS"] = "{} {} {}".format(step + 1,
+                                                                 ' из ', str(
+                    self.BD.count_rows_order()))
+
+        if name == "AMOUNT_PRODUCT":
+            config.KEYBOARD["AMOUNT_PRODUCT"] = "{}".format(quantity)
+
         return KeyboardButton(config.KEYBOARD[name])
 
     def start_menu(self):
@@ -61,7 +69,7 @@ class Keyboards:
     @staticmethod
     def remove_menu():
         """
-        Удаляет меню
+        Удаляет кнопки
         """
         return ReplyKeyboardRemove()
 
@@ -79,18 +87,18 @@ class Keyboards:
     @staticmethod
     def set_inline_btn(name):
         """
-        Создает и возвращает инлайн-кнопку по входным параметрам
+        Создает и возвращает инлайн кнопку по входным параметрам
         """
         return InlineKeyboardButton(str(name),
                                     callback_data=str(name.id))
 
     def set_select_category(self, category):
         """
-        Создает разметку инлайн-кнопок в выбранной
-        категории товара и возвращает разметку
+        Создает разметку инлайн-кнопок в
+        выбранной категории товара и возвращает разметку
         """
         self.markup = InlineKeyboardMarkup(row_width=1)
-        # загружаем в названия инлайн-кнопок данные
+        # загружаем в название инлайн-кнопок данные
         # из БД в соответствие с категорией товара
         for itm in self.BD.select_all_products_category(category):
             self.markup.add(self.set_inline_btn(itm))

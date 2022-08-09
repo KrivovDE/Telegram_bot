@@ -15,7 +15,7 @@ class Singleton(type):
     """
     Патерн Singleton предоставляет механизм создания одного
     и только одного объекта класса,
-    и предоставление к нему глобальной точки доступа.
+    и предоставление к нему глобальную точку доступа.
     """
     def __init__(cls, name, bases, attrs, **kwargs):
         super().__init__(name, bases, attrs)
@@ -29,7 +29,7 @@ class Singleton(type):
 
 class DBManager(metaclass=Singleton):
     """
-    Класс-менеджер для работы с БД
+    Класс менеджер для работы с БД
     """
 
     def __init__(self):
@@ -53,9 +53,7 @@ class DBManager(metaclass=Singleton):
         return result
 
     def close(self):
-        """
-        Закрывает сесию
-        """
+        """ Закрывает сесию """
         self._session.close()
 
     # Работа с заказом
@@ -87,7 +85,6 @@ class DBManager(metaclass=Singleton):
         self._session.commit()
         self.close()
 
-    # конвертирует список с p[(5,),(8,),...] к [5,8,...]
     def select_all_product_id(self):
         """
         Возвращает все id товара в заказе
@@ -181,3 +178,10 @@ class DBManager(metaclass=Singleton):
             product_id=product_id).one()
         self.close()
         return result.quantity
+
+    def delete_order(self, product_id):
+        # update_product_value
+        self._session.query(Order).filter_by(product_id=product_id).delete()
+        self._session.commit()
+        self.close()
+
