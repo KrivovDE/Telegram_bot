@@ -46,7 +46,7 @@ settings = """
 -<b>разработчик: - </b><i>({})</i>
 
 
-<b>{}Ваше имя</b>
+<b>{}KrivovDE</b>
 
 """.format(
     KEYBOARD['<<'],
